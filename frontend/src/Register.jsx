@@ -1,12 +1,14 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import UserContext from './Usercontext'
+import { useNavigate } from 'react-router-dom'
 
 const Register = () => {
 
     const [email, setemail] = useState('')
     const [password, setpassword] = useState('')
     const user = useContext(UserContext)
+    const navi= useNavigate()
 
     // async function registeruser(e){
     //     e.preventDefault()
@@ -23,6 +25,7 @@ const Register = () => {
             });
         setemail('')
         setpassword('')
+        navi('/')
     }
 
     return (

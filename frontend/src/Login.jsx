@@ -1,12 +1,14 @@
 import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import UserContext from './Usercontext'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [email, setemail] = useState('')
   const [password, setpassword] = useState('')
   const user = useContext(UserContext)
   const [error, seterror] = useState(false)
+  const navi= useNavigate()
 
 
   const handelclick = async () => {
@@ -18,11 +20,12 @@ const Login = () => {
         setemail('')
         setpassword('')
         seterror(false)
-
+        navi('/')
       });
     }
     catch{
       seterror(true)
+
     }
       
     
@@ -30,7 +33,7 @@ const Login = () => {
   }
 return (
   <>
-  {error ?(<h1>Email o Password Wrong</h1>):(<></>)}
+  {error ?(<h1>Email or Password is Wrong</h1>):(<></>)}
     <input type="email" placeholder='email' value={email} onChange={(e) => setemail(e.target.value)} />
     <input type="password" placeholder='Password' value={password} onChange={(e) => setpassword(e.target.value)} />
     <button onClick={handelclick}>Login</button>

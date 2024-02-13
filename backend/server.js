@@ -34,9 +34,11 @@ app.use(cors({
     origin: 'http://localhost:5173'
 }));
 app.use(cookieParser())
-//app.use(express.json())
+app.use(express.json())
 app.use(bodeParser.json({ extended: true }))
-app.listen(4000)
+app.listen(4000,(req,res)=>{
+        console.log("server is running")
+})
 
 app.get("/", (req, res) => {
     res.send("hello world")
@@ -50,17 +52,17 @@ app.get("/", async (req, res) => {
         })
 })
 
-app.post("/register", (req, res) => {
+app.post("/register", async(req, res) => {
     const { email, password } = req.body;
     const hashedpassword = bcrypt.hashSync(password, 10)
     const user = new USER({ password: hashedpassword, email: email })
-    user.save().then((userinfo) => {
+    await user.save().then((userinfo) => {
         jwt.sign({ id: userinfo._id, email: userinfo.email }, secret, (err, token) => {
             if (err) {
                 console.log(err)
                 res.sendStatus(500);
             } else {
-                res.cookie('token', token).json({ id: userinfo._id, email: userinfo.email });
+                 res.cookie('token', token).json({ id: userinfo._id, email: userinfo.email });
             }
         })
     })
